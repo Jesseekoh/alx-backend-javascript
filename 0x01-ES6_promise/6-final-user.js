@@ -16,6 +16,7 @@ const handleProfileSignup = async (firstName, lastName, filename) => {
       value: `Error: ${filename} cannot be processed`,
     });
   }
+  return result;
 };
 
 export default handleProfileSignup;
