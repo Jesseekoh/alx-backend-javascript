@@ -8,7 +8,9 @@ const countStudents = (csvPath) => {
     const numOfStudents = Math.max(fileLines.length - 1, 0);
     const fieldGroups = {};
     for (const line of fileLines.slice(1)) {
-      const [firstName, lastName, age, field] = line.split(',');
+      const student = line.split(',');
+      const firstName = student[0];
+      const field = student[3];
 
       if (field in fieldGroups === false) {
         fieldGroups[field] = [];
