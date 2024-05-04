@@ -1,9 +1,9 @@
-const fs = require('fs');
 const express = require('express');
+const fs = require('fs');
 
-const PORT = 1245;
-const DB_FILE = process.argv[2] ? process.argv[2] : '';
 const app = express();
+const PORT = 1245;
+const DB_FILE = process.argv.length > 2 ? process.argv[2] : '';
 
 /**
  * Counts the students in a CSV data file.
@@ -51,19 +51,18 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
         );
         reportParts.push(`Number of students: ${totalStudents}`);
         for (const [field, group] of Object.entries(studentGroups)) {
-          reportParts.push(
-            [
-              `Number of students in ${field}: ${group.length}.`,
-              'List:',
-              group.map((student) => student.firstname).join(', '),
-            ].join(' '),
-          );
+          reportParts.push([
+            `Number of students in ${field}: ${group.length}.`,
+            'List:',
+            group.map((student) => student.firstname).join(', '),
+          ].join(' '));
         }
         resolve(reportParts.join('\n'));
       }
     });
   }
 });
+
 app.get('/', (_, res) => {
   res.send('Hello Holberton School!');
 });
@@ -75,10 +74,10 @@ app.get('/students', (_, res) => {
     .then((report) => {
       responseParts.push(report);
       const responseText = responseParts.join('\n');
-      // res.setHeader('Content-Type', 'text/plain');
-      // res.setHeader('Content-Length', responseText.length);
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Content-Length', responseText.length);
       res.statusCode = 200;
-      res.send(responseText);
+      res.write(Buffer.from(responseText));
     })
     .catch((err) => {
       responseParts.push(err instanceof Error ? err.message : err.toString());
@@ -86,10 +85,12 @@ app.get('/students', (_, res) => {
       res.setHeader('Content-Type', 'text/plain');
       res.setHeader('Content-Length', responseText.length);
       res.statusCode = 200;
-      res.write(responseText);
+      res.write(Buffer.from(responseText));
     });
 });
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
 });
+
+module.exports = app;
