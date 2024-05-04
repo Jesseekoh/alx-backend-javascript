@@ -21,6 +21,7 @@ module.exports = {
     'no-shadow': 'off',
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
   },
+  
   overrides: [
     {
       files: ['*.js'],
