@@ -1,3 +1,3 @@
-const countStudents = require('./2-read_file');
+const countStudents = require('./read-csv');
 
-countStudents("database.csv");
+countStudents('database.csv');
