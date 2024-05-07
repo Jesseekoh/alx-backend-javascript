@@ -51,11 +51,13 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
         );
         reportParts.push(`Number of students: ${totalStudents}`);
         for (const [field, group] of Object.entries(studentGroups)) {
-          reportParts.push([
-            `Number of students in ${field}: ${group.length}.`,
-            'List:',
-            group.map((student) => student.firstname).join(', '),
-          ].join(' '));
+          reportParts.push(
+            [
+              `Number of students in ${field}: ${group.length}.`,
+              'List:',
+              group.map((student) => student.firstname).join(', '),
+            ].join(' '),
+          );
         }
         resolve(reportParts.join('\n'));
       }
